@@ -1,0 +1,55 @@
+#Encryption
+def check(c):
+        if c.isupper():
+                c=ord(c)-65
+        elif c.islower():
+                c=ord(c)-97
+        else:
+                c=int(c)
+        return c
+
+def encrypt(message,k):
+        cipher=""
+        for i in message:
+                if i.isupper():
+                        cipher+=chr(((ord(i)-65)*k)%26+65)
+                elif i.islower():
+                        cipher+=chr(((ord(i)-97)*k)%26+97)
+                else:
+                        cipher+=" "
+        return cipher
+
+message=input("Enter the message:")
+k=input("Enter the keys, numeric value or any alphabet:")
+k=check(k)
+
+print("Cipher:",encrypt(message,k))
+
+#Decryption part
+def getCoeff(d):
+        for i in range(1,26):
+                j=int(1)
+                eqn=int(1)
+                while(eqn>=1):
+                        eqn=26*i-d*j
+                        if eqn==1:
+                                return -j
+                        j=j+1
+
+def decrypt(cipher,k):
+        message=""
+        k=getCoeff(k)
+        for i in cipher:
+                if i.isupper():
+                        message+=chr(((ord(i)-65)*k)%26+65)
+                elif i.islower():
+                        message+=chr(((ord(i)-97)*k)%26+97)
+                else:
+                        message+=" "
+        return message
+
+cipher=input("Enter the cipher:")
+k=input("Enter the key, numeric value or any alphabet :")
+k=check(k)
+
+print("Message:",decrypt(cipher,k))
